@@ -18,37 +18,43 @@ import com.store.order.domain.Order;
 import com.store.order.repository.OrderRepository;
 
 @RestController
-@RequestMapping("/store-app/orders")
+@RequestMapping("/store-app")
 public class OrderManagementController {
 	@Autowired
 	OrderRepository repo;
-	@GetMapping
+	@GetMapping("/orders/all")
 	public List<Order> listOrders()
 	{
 		return repo.findAll();
 	}
 	
-	@GetMapping("/{orderId}")
+	@GetMapping("/orders/{userId}")
+	public List<Order> listOrderByUserId(@PathVariable Long userId)
+	{
+		return repo.findByuserid(userId);
+	}
+	
+	@GetMapping("/order/{orderId}")
 	public Optional<Order> listOrdersbyOrderId(@PathVariable Long orderId)
 	{
 		return repo.findById(orderId);
 	}
 	
-	@PostMapping
+	@PostMapping("/checkout/order")
 	public  HttpStatus createOrder(@RequestBody Order order)
 	{
 		repo.save(order);
 		return HttpStatus.OK;
 	}
 	
-	@PutMapping("/{orderId}")
+	@PutMapping("/order/{orderId}")
 	public HttpStatus updateOrder(@RequestBody Order order)
 	{
 		repo.save(order);
 		return HttpStatus.OK;
 	}
 	
-	@DeleteMapping("/{orderId}")
+	@DeleteMapping("/order/{orderId}")
 	public HttpStatus DeleteOrder(@PathVariable Long orderId)
 	{
 		repo.deleteById(orderId);

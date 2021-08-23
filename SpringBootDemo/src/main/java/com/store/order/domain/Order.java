@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="ordertbl")
@@ -52,6 +53,20 @@ public class Order {
 	@Column(name="discount")
 	float discount=0;
 	
+	@UpdateTimestamp
+	@Column(name="updatedat")
+	Timestamp updatedAt;
+	
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+
 	public String getSessionId() {
 		return sessionId;
 	}
