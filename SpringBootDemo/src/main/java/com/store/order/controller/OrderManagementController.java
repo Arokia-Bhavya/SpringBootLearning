@@ -18,35 +18,41 @@ import com.store.order.domain.Order;
 import com.store.order.repository.OrderRepository;
 
 @RestController
+/*/orders*/
 @RequestMapping("/store-app")
 public class OrderManagementController {
 	@Autowired
 	OrderRepository repo;
+	
+	/*remove the uri*/
 	@GetMapping("/orders/all")
 	public List<Order> listOrders()
 	{
 		return repo.findAll();
 	}
-	
+	/*use listbyUserId,exception handling,response status,2 different classes for handling service & web exception
+	 * use userId alone in uri
+	 * try to use request param
+	 * */
 	@GetMapping("/orders/{userId}")
 	public List<Order> listOrderByUserId(@PathVariable Long userId)
 	{
 		return repo.findByuserid(userId);
 	}
-	
+	//use orderId alone
 	@GetMapping("/order/{orderId}")
 	public Optional<Order> listOrdersbyOrderId(@PathVariable Long orderId)
 	{
 		return repo.findById(orderId);
 	}
-	
+	//use checkout
 	@PostMapping("/checkout/order")
 	public  HttpStatus createOrder(@RequestBody Order order)
 	{
 		repo.save(order);
 		return HttpStatus.OK;
 	}
-	
+	//use orderId alone
 	@PutMapping("/order/{orderId}")
 	public HttpStatus updateOrder(@RequestBody Order order)
 	{
@@ -54,8 +60,9 @@ public class OrderManagementController {
 		return HttpStatus.OK;
 	}
 	
+	/*user lowercase in method and orderId alone in URI*/
 	@DeleteMapping("/order/{orderId}")
-	public HttpStatus DeleteOrder(@PathVariable Long orderId)
+	public HttpStatus deleteOrder(@PathVariable Long orderId)
 	{
 		repo.deleteById(orderId);
 		return HttpStatus.OK;

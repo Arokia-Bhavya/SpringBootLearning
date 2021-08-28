@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.store.order.domain.OrderItem;
+import com.store.order.domain.OrderResponse;
 import com.store.order.repository.OrderItemRepository;
 import com.store.order.service.OrderService;
 
@@ -33,32 +34,36 @@ public class OrderItemManagementController {
 	}
 	
 	@PostMapping("/{orderId}/orderItem")
-	public  HttpStatus createOrderItem(@PathVariable Long orderId,@RequestBody OrderItem orderItem)
+	public  OrderResponse createOrderItem(@PathVariable Long orderId,@RequestBody OrderItem orderItem)
 	{
 		orderItem.setorderid(orderId);
 		repo.save(orderItem);
-		return HttpStatus.OK;
+		OrderResponse orderResponse=orderService.buildOrderResponse(orderItem);
+		return orderResponse;
 	}
 	
 	@PostMapping("/{orderId}/orderItems")
-	public HttpStatus createOrderItems(@PathVariable Long orderId,@RequestBody List<OrderItem> orderItems)
+	public OrderResponse createOrderItems(@PathVariable Long orderId,@RequestBody List<OrderItem> orderItems)
 	{
 		repo.save(orderItems);
-		return HttpStatus.OK;
+		OrderResponse orderResponse=orderService.buildOrderResponse(orderItems);
+		return orderResponse;
 	}
 	
 	@PutMapping("/orderItem")
-	public  HttpStatus updateOrderItem(@RequestBody OrderItem orderItem)
+	public  OrderResponse updateOrderItem(@RequestBody OrderItem orderItem)
 	{
-		orderService.updateOrderItem(orderItem);		
-		return HttpStatus.OK;
+		orderService.updateOrderItem(orderItem);	
+		OrderResponse orderResponse=orderService.buildOrderResponse(orderItem);
+		return orderResponse;
 	}
 	
 	@PutMapping("/{orderId}/orderItems")
-	public HttpStatus updateOrderItems(@PathVariable Long orderId,@RequestBody List<OrderItem> orderItems)
+	public OrderResponse updateOrderItems(@PathVariable Long orderId,@RequestBody List<OrderItem> orderItems)
 	{
 		repo.save(orderItems);
-		return HttpStatus.OK;
+		OrderResponse orderResponse=orderService.buildOrderResponse(orderItems);
+		return orderResponse;
 	}
 	
 	@DeleteMapping("/orderItem/{orderItemId}")

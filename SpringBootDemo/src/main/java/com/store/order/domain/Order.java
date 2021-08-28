@@ -14,11 +14,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name="ordertbl")
 public class Order {
 	
+	/*create sequence*/
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	Long id;
 	
+	/*use camel case */
 	@Column(name="userid")
 	Long userid;
 	
